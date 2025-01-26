@@ -4,35 +4,34 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.PathVariable;
 
+import com.devsuperior.dslist.dto.GameDTO;
 import com.devsuperior.dslist.dto.GameMinDTO;
 import com.devsuperior.dslist.entities.Game;
+import com.devsuperior.dslist.projections.GameMinProjection;
 import com.devsuperior.dslist.repositories.GameRepository;
 
-// Registra o GameService como se fosse um componente do sistema
 @Service
 public class GameService {
-	
-	// O proprio spring resolve a dependencia
+
 	@Autowired
 	private GameRepository gameRepository;
 	
-	public List<GameMinDTO> findAll(){
-		
-		List<Game> result = gameRepository.findAll();
-		// Transforma a lista de games em uma lista de GameMinDTO
-		List<GameMinDTO> dto = result.stream().map(x -> new GameMinDTO(x)).toList();
-		return dto;
+	// Assegurando que nao tem operacoes de escrita, tornando mais rapido a leitura
+	@Transactional(readOnly = true)
+	public GameDTO findById(@PathVariable Long listId) {
+		// findById retorna optional entao usar o get facilita a conversao
+		// isso esta assumindo que o objeto procurado existe
+		Game result = gameRepository.findById(listId).get();
+		return new GameDTO(result);
 	}
+	
+	@Transactional(readOnly = true)
+	public List<GameMinDTO> findAll() {
+		List<Game> result = gameRepository.findAll();
+		return result.stream().map(GameMinDTO::new).toList();
+	}
+	
 }
-
-
-
-
-
-
-
-
-
-
-
