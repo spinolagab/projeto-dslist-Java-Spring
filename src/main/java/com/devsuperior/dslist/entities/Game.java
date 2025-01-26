@@ -41,8 +41,8 @@ public class Game {
 	}
 
 	// construtor com argumentos
-	public Game(Long id, String title, Integer year, String genre, String platforms, Double score,String imgUrl,
-			String shortDescription, String longDescription) {
+	public Game(Long id, String title, Integer year, String genre, String platforms, Double score, String imgUrl,
+String shortDescription, String longDescription) {
 		this.id = id;
 		this.title = title;
 		this.year = year;
@@ -148,7 +148,5 @@ public class Game {
 		Game other = (Game) obj;
 		return Objects.equals(id, other.id);
 	}
-	
-	
 }
 	
