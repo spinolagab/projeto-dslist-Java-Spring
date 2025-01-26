@@ -12,9 +12,7 @@ public class GameMinDTO {
 	private String imgUrl;
 	private String shortDescription;
 
-	// construtores
-	public GameMinDTO() {
-	}
+	// construtor
 
 	public GameMinDTO(Game entity) {
 		id = entity.getId();

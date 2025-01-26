@@ -5,11 +5,14 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.devsuperior.dslist.dto.GameListDTO;
 import com.devsuperior.dslist.dto.GameMinDTO;
+import com.devsuperior.dslist.dto.ReplacementDTO;
 import com.devsuperior.dslist.services.GameListService;
 import com.devsuperior.dslist.services.GameService;
 
@@ -29,9 +32,17 @@ public class GameListController {
 		return result;
 	}
 
+	// Pesquisa os jogos da lista de numero listId
 	@GetMapping(value = "/{listId}/games")
 	public List<GameMinDTO> findGames(@PathVariable Long listId) {
 		List<GameMinDTO> result = gameService.findByGameList(listId);
 		return result;
+	}
+	
+	// Recebe a alteracao de posicao de um jogo na lista de numero listId
+	@PostMapping(value = "/{listId}/replacement")
+	public void moveGames(@PathVariable Long listId, @RequestBody ReplacementDTO body) {
+		List<GameMinDTO> result = gameService.findByGameList(listId);
+		gameListService.move(listId, body.getSourceIndex(), body.getDestinationIndex());
 	}
 }
