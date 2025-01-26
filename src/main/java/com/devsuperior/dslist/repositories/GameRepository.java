@@ -12,8 +12,9 @@ public interface GameRepository extends JpaRepository<Game, Long> {
 
 	// Para funcionar a consulta SQL eh preciso usar @Query e nativeQuery = true
 	// por algum motivo mostra um erro na virgula mas funciona normalmente
+	// postgress nao aceitou a crase entao houve uma mudanca para adaptar
 	@Query(nativeQuery = true, value = """
-			SELECT tb_game.id, tb_game.title, tb_game.game_year AS `year`, tb_game.img_url AS imgUrl,
+			SELECT tb_game.id, tb_game.title, tb_game.game_year AS gameYear, tb_game.img_url AS imgUrl,
 			tb_game.short_description AS shortDescription, tb_belonging.position
 			FROM tb_game
 			INNER JOIN tb_belonging ON tb_game.id = tb_belonging.game_id
